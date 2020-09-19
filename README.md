@@ -1,7 +1,9 @@
 
 ### Software Engineering for IoT and BigData
 
-### Lab 2 - IoT devices communication (
+### Lab 2 - IoT devices communication
+
+### Exercise to be done by groups of two students.
 
 ### Required elements.
 
@@ -32,97 +34,31 @@ In this exercise, you and your partner will build two separate IoT devices (micr
 - The microcontroller should be subscribed to the topic (or topics) where temperature and light readings will be published by Device A. When such values are above a given threshold, the corresponding LED should be turned on. Likewise, the LEDs should be turned off once the values are below their corresponding thresholds.
 - Pressing the push button should post a STOP or RESUME message (depending on the status of the process) on the corresponding topic. In this case, you should consider using hardware interruputs, as in Lab-01, to detect when the button was pushed.
 
-- The manifacturing process should be ON by default.
-- The microcontroller must publish, every 2 seconds, the light and temperature readings in a topic on the MQTT broker.
-- The requests for stopping the manufacturing process will be posted as a message on another topic on the MQTT broker. Therefore, the microcontroller should be subscribed to such topic, and continiously check for new messages.
 
 
+## Additional considerations
 
+1. It is recommended to use the official micripython's MQTT client libraries: [umqtt.robust](https://github.com/micropython/micropython-lib/tree/master/umqtt.robust).
 
+	You can install these libraries throug [upip (micro pip)](https://docs.micropython.org/en/latest/reference/packages.html), by opening a REPL prompt (as in Lab-00) and entering:
 
-
-Simultaneously, the microcontoller should be able to identify a request to stop the process. These requests wi
-
-
-
-- publisher that submits light/temperature readings
-- subscriber that get requests from other's side button and performs an action (in this case, turn on the LED)
-- 
-
-
-
-- 
-- A publisher that publishes an action request when a button is pressed
-- A subscriber that get data from light/temperature from the remote side, and turns on the leds when values are above certain value, and turn them off when said values are below.
-
-
-
-
-- 
-- A LED that will turn on once a certain value on light and temperature are reported, to alert a human operator
-- A Button for the human operator to take action
-
-#### Software
-- A publisher that publishes an action request when a button is pressed
-- A subscriber that get data from light/temperature from the remote side, and turns on the leds when values are above certain value, and turn them off when said values are below.
-
-
-### Device B - In place controller:
-#### In-place sensors
-- A photoresistor
-- A LED that represents an in-place action
-
-#### Software
-- publisher that submits light/temperature readings
-- subscriber that get requests from other's side button and performs an action (in this case, turn on the LED)
-- 
-
-
-
-
-
-
-
-El laboratorio que estoy armando y que terminaría mañana consiste, en principio, en el siguiente ejercicio:
-
-En grupos de dos personas, van a armar dos circuitos simulando un escenario con dos dispositivos en el que el Dispositivo #1 está dentro de una fábrica controlando un proceso de manufactura (en este caso simulado con mantener un LED encendido) y midiendo parámetros del entorno de dicho proceso (en este caso, la cantidad de luz, y la temperatura ambiente) y transmitiéndolos contínuamente. 
-A su vez, el Dispositivo #2 (que estaría ubicado en un sitio remoto) evalúa contínuamente los valores del Dispositivo #1, activando o desactivando alarmas visuales o auditivas (en este caso, serían unos LEDs) deacuerdo con unos intervalos de valores de temperatura y luz determinados. A partir de dichas alarmas visuales, una persona puede decidir detener el proceso del Dispositivo #1 oprimiendo un botón  en Dispositivo #2. Es decir, al oprimir el botón del Dispositivo #2, se generará un evento que debe ser detectado por el Dispositivo #1, a partir del cual debe detener su proceso (en este caso, apagar su LED).
-
-
-
-### Device A - Remote monitoring:
-#### Hardware configuration
-- A LED (optional a buzzer) that will turn on once a certain value on light and temperature are reported, to alert a human operator
-- A Button for the human operator to take action
-
-#### Software
-- A publisher that publishes an action request when a button is pressed
-- A subscriber that get data from light/temperature from the remote side, and turns on the leds when values are above certain value, and turn them off when said values are below.
-
-
-### Device B - In place controller:
-#### In-place sensors
-- A photoresistor
-- A LED that represents an in-place action
-
-#### Software
-- publisher that submits light/temperature readings
-- subscriber that get requests from other's side button and performs an action (in this case, turn on the LED)
-- 
-
-
-
-## Elements
-
-- Install umqtt library packages [through upip (micro-pip)](https://docs.micropython.org/en/latest/reference/packages.html)
-
+	```python
 	import upip
 	upip.install('micropython-umqtt.robust')
+	```
+There is no API documentation on this library, but the code is fairly simple and is -mostly- documented. You can check the [umqtt.simple source code](https://github.com/micropython/micropython-lib/blob/master/umqtt.simple/umqtt/simple.py) to see the parameters of the *publish*, *subscribe*, *set_callback*, *wait_msg* and *check_msg* methods. Pay special attention to the difference between *wait_msg* and *check_msg*.
 
-- Setup a MQTT broker. It is suggested CloudAMQP (supports MQTT)
-- To setup a subscriber
+2. We suggest to use a free plan of [CloudAMQP](https://www.cloudamqp.com/) as the MQTT broker. Once you have configured your broker, you can check in the instance details its HOST (Load Balanced), USER & VHOST, and PASSWORD. When using this broker with umqtt, take the following into consideration:
+	- To make a connection to the broker, the user string is the user given by CloudAMQP, but twice, sepparated by a colon. E.g. if the user is *exegpeeg*, the user is given to the mqtt client as follows:
 
-	- s = MQTTClient('pub-52dc166c-2de7-43c1-88ff-f8021142432','hawk.rmq.cloudamqp.com',1883,'ehegpeeg:ehegpeeg','BoUt3xm3z6LTDilYf1yZdCA1BRd3yjxC')
+		```python
+		sub = MQTTClient('unique-identified','thehost.com',1883,'exegpeeg:exegpeeg','ThePassword')
+		```
+	- The topics must have the above username as a prefix. For example, for the above user to subscribe or to post data on the broker's topic '/feeds/data', it must use 'exegpeeg:exegpeeg/feeds/data'. For example:
+
+		```python
+		client.publish('exegpeeg:exegpeeg/feeds/data', '33')
+		```
 
 	- sub.connect()
 	- set callback
