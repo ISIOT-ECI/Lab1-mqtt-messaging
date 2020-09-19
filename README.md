@@ -61,9 +61,35 @@ In this exercise, you and your partner will build two separate IoT devices (micr
 		client.publish('exegpeeg:exegpeeg/feeds/data', '33')
 		```
 
-3. In this laboratoriy one of the devices needs to perform two tasks simultaneously: posting data from the sensors, and checking 
+3. In this laboratoriy one of the devices needs to perform two tasks simultaneously: posting sensor readings, and checking messages from a topic. The ESP8266 doesn't support threads, but you can instead use [the Micropython's asynchronous I/O scheduler](https://docs.micropython.org/en/latest/library/uasyncio.html). For example, the following allows the microcontroller to keep control of two independent tasks: keep blinking a red LED for a second, and keep blinking a blue LED for 100ms. Note that using *await uasyncio.sleep* instead of *time.sleep* ensures that the CPU won't be suspended, and instead it will yield the control to the other taks (i.e., taskB will be processed while taskA is in 'sleep' mode).
 
-4. Use the [microcontroller's unique ID](https://docs.micropython.org/en/latest/library/machine.html) as MQTT client's unique identifier.
+
+	```python
+	async def taskA():
+   		 while True:       
+   		 	#turn ON the RED LED
+        	await uasyncio.sleep_ms(1000)
+        	#turn OFF the RED LED
+			await uasyncio.sleep_ms(1000)
+
+	async def taskB():
+   		while True:
+			#turn ON the BLUE LED	
+        	await uasyncio.sleep_ms(100)
+			#turn OFF the BLUE LED	
+			await uasyncio.sleep_ms(100)
+			
+	loop = uasyncio.get_event_loop()
+	loop.create_task(taskA())
+	loop.create_task(taskB())
+	loop.run_forever()
+
+	```
+
+
+
+
+4. Use the [microcontroller's unique ID](https://docs.micropython.org/en/latest/library/machine.html) as MQTT client's unique identifier. 
 
 
 ### Deliverables (to be submitted on moodle)
