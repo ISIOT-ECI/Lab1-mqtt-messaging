@@ -3,7 +3,7 @@
 
 ### Lab 2 - IoT devices communication
 
-### Exercise to be done by groups of two students.
+### Exercise to be done in groups of two - Pick your partner!
 
 ### Required elements.
 
