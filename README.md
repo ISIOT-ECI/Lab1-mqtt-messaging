@@ -7,7 +7,7 @@
 
 ### Required elements.
 
-1. Elements from [Lab-01]()
+1. Elements from [Lab-01](https://github.com/ISIOT-ECI/Lab1-Sensors)
 
 ### Lab Goal
 
@@ -16,7 +16,7 @@ In this exercise, you and your partner will build two separate IoT devices (micr
 
 ### Device A - Monitoring device in the factory:
 #### Hardware configuration
-- A ESP8266 microcontroller, with a photoresistor and a humidity/temperature sensor (DHT11) circuits connected to it, as in [Lab-01]().
+- A ESP8266 microcontroller, with a photoresistor and a humidity/temperature sensor (DHT11) circuits connected to it, as in [Lab-01](https://github.com/ISIOT-ECI/Lab1-Sensors).
 - To represent the manufacturing process state, a LED will be also included (ON = process in action, OFF = process stopped)
 
 #### Microcontroller Software
