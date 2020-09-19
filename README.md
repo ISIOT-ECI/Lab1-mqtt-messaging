@@ -20,7 +20,7 @@ In this exercise, you and your partner will build two separate IoT devices (micr
 #### Microcontroller Software
 - The manifacturing process should be ON by default.
 - The microcontroller must publish, every 2 seconds, the light and temperature readings in a topic on the MQTT broker.
-- The requests for stopping or resuming the manufacturing process will be posted as a message on another topic on the MQTT broker. Therefore, the microcontroller should be subscribed to such topic, and continiously check for new messages.
+- The requests for stopping or resuming the manufacturing process will be posted as a message on another topic on the MQTT broker. Therefore, the microcontroller should be subscribed to such topic, and continiously check for new messages. In this prototype, the effect of receiving a STOP or RESUME message is simply turning OFF and ON the LED.
 
 
 ### Device B - Remote monitoring and control:
@@ -29,7 +29,8 @@ In this exercise, you and your partner will build two separate IoT devices (micr
 - A push-button circuit, as in [Lab-01](), attached to one of the microcontroller's digital pins.
 
 #### Microcontroller Software
-- The microcontroller should be subscribed to the topic (or topics) where temperature and light readings are being published by Device 
+- The microcontroller should be subscribed to the topic (or topics) where temperature and light readings will be published by Device A. When such values are above a given threshold, the corresponding LED should be turned on. Likewise, the LEDs should be turned off once the values are below their corresponding thresholds.
+- Pressing the push button should post a STOP or RESUME message (depending on the status of the process) on the corresponding topic. In this case, you should consider using hardware interruputs, as in Lab-01, to detect when the button was pushed.
 
 - The manifacturing process should be ON by default.
 - The microcontroller must publish, every 2 seconds, the light and temperature readings in a topic on the MQTT broker.
