@@ -68,14 +68,14 @@ In this exercise, you and your partner will build two separate IoT devices (micr
 	async def taskA():
    		 while True:       
    		 	#turn ON the RED LED
-        	await uasyncio.sleep_ms(1000)
-        	#turn OFF the RED LED
+        		await uasyncio.sleep_ms(1000)
+        		#turn OFF the RED LED
 			await uasyncio.sleep_ms(1000)
 
 	async def taskB():
    		while True:
 			#turn ON the BLUE LED	
-        	await uasyncio.sleep_ms(100)
+        		await uasyncio.sleep_ms(100)
 			#turn OFF the BLUE LED	
 			await uasyncio.sleep_ms(100)
 			
