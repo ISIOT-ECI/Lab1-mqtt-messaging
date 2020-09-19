@@ -88,7 +88,6 @@ In this exercise, you and your partner will build two separate IoT devices (micr
 
 
 
-
 4. Use the [microcontroller's unique ID](https://docs.micropython.org/en/latest/library/machine.html) as MQTT client's unique identifier. 
 
 
