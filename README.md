@@ -46,19 +46,29 @@ In this exercise, you and your partner will build two separate IoT devices (micr
 	import upip
 	upip.install('micropython-umqtt.robust')
 	```
-There is no API documentation on this library, but the code is fairly simple and is -mostly- documented. You can check the [umqtt.simple source code](https://github.com/micropython/micropython-lib/blob/master/umqtt.simple/umqtt/simple.py) to see the parameters of the *publish*, *subscribe*, *set_callback*, *wait_msg* and *check_msg* methods. Pay special attention to the difference between *wait_msg* and *check_msg*.
+
+	You can check the [documentation of this library](https://pypi.org/project/micropython-umqtt.simple/) or the [umqtt.simple source code](https://github.com/micropython/micropython-lib/blob/master/umqtt.simple/umqtt/simple.py) (which is fairly simple and mostly documented) to see the parameters of the *publish*, *subscribe*, *set_callback*, *wait_msg* and *check_msg* methods. Pay special attention to the difference between *wait_msg* and *check_msg*.
 
 2. We suggest to use a free plan of [CloudAMQP](https://www.cloudamqp.com/) as the MQTT broker. Once you have configured your broker, you can check in the instance details its HOST (Load Balanced), USER & VHOST, and PASSWORD. When using this broker with umqtt, take the following into consideration:
 	- To make a connection to the broker, the user string is the user given by CloudAMQP, but twice, sepparated by a colon. E.g. if the user is *exegpeeg*, the user is given to the mqtt client as follows:
 
 		```python
-		sub = MQTTClient('unique-identified','thehost.com',1883,'exegpeeg:exegpeeg','ThePassword')
+		sub = MQTTClient('unique-identifier','thehost.com',1883,'exegpeeg:exegpeeg','ThePassword')
 		```
 	- The topics must have the above username as a prefix. For example, for the above user to subscribe or to post data on the broker's topic '/feeds/data', it must use 'exegpeeg:exegpeeg/feeds/data'. For example:
 
 		```python
 		client.publish('exegpeeg:exegpeeg/feeds/data', '33')
 		```
+
+3. In this laboratoriy one of the devices needs to perform two tasks simultaneously: posting data from the sensors, and checking 
+
+4. Use the [microcontroller's unique ID](https://docs.micropython.org/en/latest/library/machine.html) as MQTT client's unique identifier.
+
+
+
+
+
 
 	- sub.connect()
 	- set callback
