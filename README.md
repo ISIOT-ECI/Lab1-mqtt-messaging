@@ -38,7 +38,7 @@ In this exercise, you and your partner will build two separate IoT devices (micr
 
 ## Additional considerations
 
-1. It is recommended to use the official micripython's MQTT client libraries: [umqtt.robust](https://github.com/micropython/micropython-lib/tree/master/umqtt.robust).
+1. It is recommended to use the official micripython's MQTT client libraries: [umqtt.robust](https://github.com/micropython/micropython-lib/tree/master/umqtt.robust). *Note: we didn't use the umqtt.robust2 package due to problems with the ESP8266, but you are free to try it.*
 
 	You can install these libraries throug [upip (micro pip)](https://docs.micropython.org/en/latest/reference/packages.html), by opening a REPL prompt (as in Lab-00) and entering:
 
@@ -47,7 +47,7 @@ In this exercise, you and your partner will build two separate IoT devices (micr
 	upip.install('micropython-umqtt.robust')
 	```
 
-	You can check the [documentation of this library](https://pypi.org/project/micropython-umqtt.simple/) or the [umqtt.simple source code](https://github.com/micropython/micropython-lib/blob/master/umqtt.simple/umqtt/simple.py) (which is fairly simple and mostly documented) to see the parameters of the *publish*, *subscribe*, *set_callback*, *wait_msg* and *check_msg* methods. Pay special attention to the difference between *wait_msg* and *check_msg*.
+	You can check the [documentation of this library](https://pypi.org/project/micropython-umqtt.simple/) or the [umqtt.simple source code](https://github.com/micropython/micropython-lib/blob/master/umqtt.simple/umqtt/simple.py) (which is fairly simple and mostly documented) to see the parameters of the *publish*, *subscribe*, *set_callback*, *wait_msg* and *check_msg* methods. Pay special attention to the difference between *wait_msg* and *check_msg*. 
 
 2. We suggest to use a free plan of [CloudAMQP](https://www.cloudamqp.com/) as the MQTT broker. Once you have configured your broker, you can check in the instance details its HOST (Load Balanced), USER & VHOST, and PASSWORD. When using this broker with umqtt, take the following into consideration:
 	- To make a connection to the broker, the user string is the user given by CloudAMQP, but twice, sepparated by a colon. E.g. if the user is *exegpeeg*, the user is given to the mqtt client as follows:
@@ -65,3 +65,7 @@ In this exercise, you and your partner will build two separate IoT devices (micr
 
 4. Use the [microcontroller's unique ID](https://docs.micropython.org/en/latest/library/machine.html) as MQTT client's unique identifier.
 
+
+### Deliverables (to be submitted on moodle)
+
+- Source code and pictures of both devices (breadboard + NodeMCU)
